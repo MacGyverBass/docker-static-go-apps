@@ -15,9 +15,13 @@ These are compiled statically to only provide the bare minimum files within the 
 
 Please review the documentation listed on the source pages for usage of the above applications.
 
+---
+
 ## Examples of Use
 
 Below are various examples for the above applications.  I will try to keep this list updated as more items are added.
+
+### Example for dec-decode
 
 The following example bind mounts a folder from the host to inside the container and procedes to supply a file to decode.  Remember to provide the folder path/name as it is mounted within the container.
 
@@ -28,6 +32,8 @@ docker run --rm -it \
  /images/test.dec
 ```
 
+### Example for lazydocker
+
 The following example bind mounts the `docker.sock` file from the host and procedes to execute `lazydocker`.  Note that the application will ask if you want to enable anonymous reporting data to help improve lazydocker each time the Docker container is started.
 
 ```sh
@@ -35,6 +41,8 @@ docker run --rm -it \
  -v /var/run/docker.sock:/var/run/docker.sock \
  macgyverbass/lazydocker
 ```
+
+### Examples for pasta
 
 The following example bind mounts a folder from the host to inside the container for storing the data files and with port 8042 forwarded to the host.  Note that when you launch `pasta`, it will ask for a secret (e.g. "adam bravo charlie david edward frank george henry ida john king lincoln" - note that this is just an example) - if you want to generate a secret using `pasta`, you can pass `-gen-secret` as also shown in the next example further below.
 
@@ -63,6 +71,8 @@ docker run --rm -it \
  -secret-file /db/secret.txt
 ```
 
+### Example for skopeo
+
 The following example runs `skopeo` with the `inspect` argument to show properties of `fedora:latest`.  (This example is based upon the example from the official [GitHub Examples Section](https://github.com/containers/skopeo#show-properties-of-fedoralatest).)
 
 ```sh
@@ -70,6 +80,8 @@ docker run --rm -it \
  macgyverbass/skopeo \
  inspect docker://registry.fedoraproject.org/fedora:latest
 ```
+
+### Example for whaler
 
 The following example bind mounts the `docker.sock` file from the host and procedes to execute `whaler`.  Note that, as the program has documented, you may need to add `-sV=1.36` to the argument list, as shown below.
 
@@ -79,6 +91,8 @@ docker run --rm -it \
  macgyverbass/whaler \
  -sV=1.36 golang:alpine
 ```
+
+### Examples for webproc
 
 Note that `webproc` is best used when it is added to another Docker image, as there are no other binaries within it's own image.  For example, you may create a Dockerfile like below using `webproc`, which will `ping 8.8.8.8` (a simple ping to Google DNS 8.8.8.8) using `webproc`.
 
