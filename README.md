@@ -8,6 +8,7 @@ These are compiled statically to only provide the bare minimum files within the 
 
 - `dec-decode` - A iso.dec decoder, which implements the NASOS method of decoding .iso.dec files back into plain .iso files.  Source: [GitHub](https://github.com/sammiq/dec-decode)
 - `lazydocker` - A simple terminal UI for both docker and docker-compose.  Source: [GitHub](https://github.com/jesseduffield/lazydocker)
+- `pasta` - Pastebin-like web-server.  Source: [GitHub](https://github.com/starius/pasta)
 - `skopeo` - Work with remote images registries - retrieving information, images, signing content.  Source: [GitHub](https://github.com/containers/skopeo)
 - `webproc` - Wrap any program in a simple web-based user-interface.  Source: [GitHub](https://github.com/jpillora/webproc)
 - `whaler` - Tool designed to reverse engineer docker images into the Dockerfile that created it.  Source: [GitHub](https://github.com/P3GLEG/Whaler)
@@ -33,6 +34,33 @@ The following example bind mounts the `docker.sock` file from the host and proce
 docker run --rm -it \
  -v /var/run/docker.sock:/var/run/docker.sock \
  macgyverbass/lazydocker
+```
+
+The following example bind mounts a folder from the host to inside the container for storing the data files and with port 8042 forwarded to the host.  Note that when you launch `pasta`, it will ask for a secret (e.g. "adam bravo charlie david edward frank george henry ida john king lincoln" - note that this is just an example) - if you want to generate a secret using `pasta`, you can pass `-gen-secret` as also shown in the next example further below.
+
+```sh
+docker run --rm -it \
+ -v /my-folder/:/db/ \
+ -p 8042:8042/tcp \
+ macgyverbass/pasta
+```
+
+As mentioned before, `pasta` can generate a secret phrase for you using the below command.  (The output text can then be stored in a file for use with the `-secret-file` argument shown in the next example further below.)
+
+```sh
+docker run --rm -it \
+ macgyverbass/pasta \
+ -gen-secret
+```
+
+Additionally, a text file (`/my-folder/secret.txt` in this example) with a secret phrase may be loaded using the `-secret-file` argument as shown below:  (Note that, for simplicity, the text file is located in the same host folder as the data files, but it can also be stored elsewhere and mounted within the container, with the new mounted location passed accordingly.)  This will allow the binary to launch without user input at startup.
+
+```sh
+docker run --rm -it \
+ -v /my-folder/:/db/ \
+ -p 8042:8042/tcp \
+ macgyverbass/pasta \
+ -secret-file /db/secret.txt
 ```
 
 The following example runs `skopeo` with the `inspect` argument to show properties of `fedora:latest`.  (This example is based upon the example from the official [GitHub Examples Section](https://github.com/containers/skopeo#show-properties-of-fedoralatest).)
