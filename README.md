@@ -8,6 +8,7 @@ These are compiled statically to only provide the bare minimum files within the 
 
 - `dec-decode` - A iso.dec decoder, which implements the NASOS method of decoding .iso.dec files back into plain .iso files.  Source: [GitHub](https://github.com/sammiq/dec-decode)
 - `lazydocker` - A simple terminal UI for both docker and docker-compose.  Source: [GitHub](https://github.com/jesseduffield/lazydocker)
+- `skopeo` - Work with remote images registries - retrieving information, images, signing content.  Source: [GitHub](https://github.com/containers/skopeo)
 - `webproc` - Wrap any program in a simple web-based user-interface.  Source: [GitHub](https://github.com/jpillora/webproc)
 - `whaler` - Tool designed to reverse engineer docker images into the Dockerfile that created it.  Source: [GitHub](https://github.com/P3GLEG/Whaler)
 
@@ -32,6 +33,14 @@ The following example bind mounts the `docker.sock` file from the host and proce
 docker run --rm -it \
  -v /var/run/docker.sock:/var/run/docker.sock \
  macgyverbass/lazydocker
+```
+
+The following example runs `skopeo` with the `inspect` argument to show properties of `fedora:latest`.  (This example is based upon the example from the official [GitHub Examples Section](https://github.com/containers/skopeo#show-properties-of-fedoralatest).)
+
+```sh
+docker run --rm -it \
+ macgyverbass/skopeo \
+ inspect docker://registry.fedoraproject.org/fedora:latest
 ```
 
 The following example bind mounts the `docker.sock` file from the host and procedes to execute `whaler`.  Note that, as the program has documented, you may need to add `-sV=1.36` to the argument list, as shown below.
