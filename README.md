@@ -10,6 +10,7 @@ These are compiled statically to only provide the bare minimum files within the 
 - `docker-webui` - A web interface for Docker, providing various functions for reviewing and controlling containers.  Source: [GitHub](https://github.com/hajimeo/docker-webui)
 - `lazydocker` - A simple terminal UI for both docker and docker-compose.  Source: [GitHub](https://github.com/jesseduffield/lazydocker)
 - `pasta` - Pastebin-like web-server.  Source: [GitHub](https://github.com/starius/pasta)
+- `reg` - Docker registry v2 command line client and repo listing generator with security checks.  Source: [GitHub](https://github.com/genuinetools/reg)
 - `skopeo` - Work with remote images registries - retrieving information, images, signing content.  Source: [GitHub](https://github.com/containers/skopeo)
 - `webproc` - Wrap any program in a simple web-based user-interface.  Source: [GitHub](https://github.com/jpillora/webproc)
 - `whaler` - Tool designed to reverse engineer docker images into the Dockerfile that created it.  Source: [GitHub](https://github.com/P3GLEG/Whaler)
@@ -81,6 +82,16 @@ docker run --rm -it \
  -p 8042:8042/tcp \
  macgyverbass/pasta \
  -secret-file /db/secret.txt
+```
+
+### Example for reg
+
+The following example runs `reg` with the command `tags` for the image `alpine`.  Many other commands are available, so please review the official [GitHub Usage Section](https://github.com/genuinetools/reg#usage) for more commands/options and examples.
+
+```sh
+docker run --rm -it \
+ macgyverbass/reg \
+ tag alpine
 ```
 
 ### Example for skopeo
