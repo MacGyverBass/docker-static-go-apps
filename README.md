@@ -7,6 +7,7 @@ These are compiled statically to only provide the bare minimum files within the 
 ## List of Go Applications with Sources
 
 - `dec-decode` - A iso.dec decoder, which implements the NASOS method of decoding .iso.dec files back into plain .iso files.  Source: [GitHub](https://github.com/sammiq/dec-decode)
+- `docker-webui` - A web interface for Docker, providing various functions for reviewing and controlling containers.  Source: [GitHub](https://github.com/hajimeo/docker-webui)
 - `lazydocker` - A simple terminal UI for both docker and docker-compose.  Source: [GitHub](https://github.com/jesseduffield/lazydocker)
 - `pasta` - Pastebin-like web-server.  Source: [GitHub](https://github.com/starius/pasta)
 - `skopeo` - Work with remote images registries - retrieving information, images, signing content.  Source: [GitHub](https://github.com/containers/skopeo)
@@ -30,6 +31,17 @@ docker run --rm -it \
  -v /my-folder/:/images/ \
  macgyverbass/dec-decode \
  /images/test.dec
+```
+
+### Example for docker-webui
+
+The following example bind mounts the `docker.sock` file from the host and forwards port 9000 to the host.
+
+```sh
+docker run --rm -it \
+ -v /var/run/docker.sock:/var/run/docker.sock \
+ -p 9000:9000/tcp \
+ macgyverbass/docker-webui
 ```
 
 ### Example for lazydocker
