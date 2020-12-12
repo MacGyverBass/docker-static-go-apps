@@ -1,18 +1,25 @@
+# Base image for building static binary
 FROM	golang:alpine3.12 AS builder
 
-RUN	apk --no-cache add	\
-		git
+# Install git
+RUN	apk --no-cache add git
 
-RUN	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go get -v -ldflags="-w -s" github.com/starius/pasta/gopasta
+# Build static binary
+RUN	CGO_ENABLED="0" GOOS="linux" GOARCH="amd64" go get -v -ldflags="-w -s" github.com/starius/pasta/gopasta
 
 
+# Build from scratch for smallest possible secure build
 FROM	scratch
 
+# Copy static binary into image
 COPY	--from=builder /go/bin/gopasta /pasta
 
+# Define our entrypoint
 ENTRYPOINT	["/pasta", "-dir", "/db/"]
 
+# Volumes used by image
 VOLUME	["/db/"]
 
+# Define the ports used
 EXPOSE	8042/tcp
 
