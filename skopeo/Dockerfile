@@ -2,6 +2,7 @@
 FROM	golang:alpine3.12 AS compile
 
 # Intall packages needed to compile binary
+# Also install ca-certificates, so the ca-certificates.crt file can be copied to the final image
 RUN	apk --no-cache add	\
 		git	\
 		make	\
@@ -9,6 +10,7 @@ RUN	apk --no-cache add	\
 		linux-headers	\
 		musl-dev	\
 		gpgme-dev	\
+		ca-certificates	\
 	&& apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing add	\
 		nix
 
@@ -20,13 +22,6 @@ RUN	make -C $GOPATH/src/github.com/containers/skopeo/ static DISABLE_CGO=1	\
 	&& mv -v $GOPATH/src/github.com/containers/skopeo/bin/* $GOPATH/bin/
 
 
-# Use alpine to download ca-certificates.crt file, which is needed for this binary
-FROM	alpine:3.12 AS cacerts
-
-# Install ca-certificates
-RUN	apk --no-cache add ca-certificates
-
-
 # Build from scratch for smallest possible secure build
 FROM	scratch
 
@@ -34,7 +29,7 @@ FROM	scratch
 COPY	--from=compile /go/bin/skopeo /skopeo
 
 # Copy ca-certificates.crt into image
-COPY	--from=cacerts /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY	--from=compile /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Define our entrypoint
 ENTRYPOINT	["/skopeo"]
