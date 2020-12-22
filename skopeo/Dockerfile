@@ -11,6 +11,7 @@ RUN	apk --no-cache add	\
 		musl-dev	\
 		gpgme-dev	\
 		ca-certificates	\
+		upx	\
 	&& apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing add	\
 		nix
 
@@ -20,6 +21,9 @@ RUN	git clone https://github.com/containers/skopeo/ $GOPATH/src/github.com/conta
 # Compile binary and move it to bin/
 RUN	make -C $GOPATH/src/github.com/containers/skopeo/ static DISABLE_CGO=1	\
 	&& mv -v $GOPATH/src/github.com/containers/skopeo/bin/* $GOPATH/bin/
+
+# Compress the binary
+RUN	upx -9 /go/bin/skopeo
 
 
 # Build from scratch for smallest possible secure build
