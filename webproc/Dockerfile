@@ -1,5 +1,5 @@
 # Base image for building static binary
-FROM	golang:alpine3.12 AS builder
+FROM	golang:alpine3.13 AS builder
 
 # Install git & upx
 RUN	apk --no-cache add git upx

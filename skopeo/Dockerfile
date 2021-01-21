@@ -1,5 +1,5 @@
 # Base image for building static binary
-FROM	golang:alpine3.12 AS compile
+FROM	golang:alpine3.13 AS compile
 
 # Install packages needed to compile binary
 # Also intall ca-certificates & upx packages
