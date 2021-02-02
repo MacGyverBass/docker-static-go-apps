@@ -1,5 +1,5 @@
 # Base image for building static binary
-FROM	golang:alpine3.13 AS builder
+FROM	macgyverbass/base-label:golang AS builder
 
 # Install git & upx
 RUN	apk --no-cache add git upx
@@ -16,7 +16,7 @@ RUN	mkdir -p bin/app/	\
 
 
 # Build from scratch for smallest possible secure build
-FROM	scratch
+FROM	macgyverbass/base-label:scratch
 
 # Copy static binary and app folder into image
 COPY	--from=builder /go/bin/ /

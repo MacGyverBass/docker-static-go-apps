@@ -1,5 +1,5 @@
 # Base image for building static binary
-FROM	golang:alpine3.13 AS compile
+FROM	macgyverbass/base-label:golang AS compile
 
 # Install packages needed to compile binary
 # Also intall ca-certificates & upx packages
@@ -28,7 +28,7 @@ RUN	upx -9 /skopeo/bin/skopeo
 
 
 # Build from scratch for smallest possible secure build
-FROM	scratch
+FROM	macgyverbass/base-label:scratch
 
 # Copy static binary into image
 COPY	--from=compile /skopeo/bin/skopeo /skopeo
